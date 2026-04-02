@@ -1,11 +1,11 @@
 class GameController {
     constructor() {
         this.progress = {
-            level1Cleared: true,
-            level2Cleared: true,
-            level3Cleared: true
+            level1Cleared: false,
+            level2Cleared: false,
+            level3Cleared: false
         };
-        this.fragments = ["DANDADAN", "GHOSTHUNTER", "WOLFGIRL"];
+        this.fragments = [];
 
         // Analytics
         this.timerStart = null;
