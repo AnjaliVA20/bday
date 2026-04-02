@@ -63,45 +63,74 @@ class GameController {
     }
 
     updateLevelSelectUI() {
-        // Update Level 1 state
+        // Realm 01
         if (this.progress.level1Cleared) {
             document.getElementById('ws-1').style.display = 'none';
             document.getElementById('wb-1').style.display = 'block';
             document.getElementById('world-1').classList.add('cleared');
-
-            // Unlock Level 2
-            const w2 = document.getElementById('world-2');
-            w2.classList.remove('locked');
-            w2.onclick = () => this.enterLevel(2);
-            document.getElementById('ws-2').innerText = 'ENTER WORLD';
-            document.getElementById('ws-2').style.color = 'var(--text)';
-            w2.querySelector('.lock-overlay').style.display = 'none';
+        } else {
+            document.getElementById('ws-1').style.display = 'block';
+            document.getElementById('wb-1').style.display = 'none';
+            document.getElementById('world-1').classList.remove('cleared');
         }
 
-        // Update Level 2 state
+        // Realm 02
+        const w2 = document.getElementById('world-2');
         if (this.progress.level2Cleared) {
             document.getElementById('ws-2').style.display = 'none';
             document.getElementById('wb-2').style.display = 'block';
-            document.getElementById('world-2').classList.add('cleared');
+            w2.classList.add('cleared');
+        } else {
+            document.getElementById('wb-2').style.display = 'none';
+            w2.classList.remove('cleared');
 
-            // Unlock Level 3
-            const w3 = document.getElementById('world-3');
-            w3.classList.remove('locked');
-            w3.onclick = () => this.enterLevel(3);
-            document.getElementById('ws-3').innerText = 'ENTER WORLD';
-            document.getElementById('ws-3').style.color = 'var(--text)';
-            w3.querySelector('.lock-overlay').style.display = 'none';
+            // Lock/Unlock logic based on Level 1
+            if (this.progress.level1Cleared) {
+                w2.classList.remove('locked');
+                w2.onclick = () => this.enterLevel(2);
+                document.getElementById('ws-2').style.display = 'block';
+                document.getElementById('ws-2').innerText = 'ENTER WORLD';
+                w2.querySelector('.lock-overlay').style.display = 'none';
+            } else {
+                w2.classList.add('locked');
+                w2.onclick = null;
+                document.getElementById('ws-2').innerText = '🔒 LOCKED';
+                w2.querySelector('.lock-overlay').style.display = 'flex';
+            }
         }
 
-        // Update Level 3 state
+        // Realm 03
+        const w3 = document.getElementById('world-3');
         if (this.progress.level3Cleared) {
             document.getElementById('ws-3').style.display = 'none';
             document.getElementById('wb-3').style.display = 'block';
-            document.getElementById('world-3').classList.add('cleared');
+            w3.classList.add('cleared');
             document.getElementById('final-crack-btn').style.display = 'flex';
+        } else {
+            document.getElementById('wb-3').style.display = 'none';
+            w3.classList.remove('cleared');
+            document.getElementById('final-crack-btn').style.display = 'none';
+
+            if (this.progress.level2Cleared) {
+                w3.classList.remove('locked');
+                w3.onclick = () => this.enterLevel(3);
+                document.getElementById('ws-3').style.display = 'block';
+                document.getElementById('ws-3').innerText = 'ENTER WORLD';
+                w3.querySelector('.lock-overlay').style.display = 'none';
+            } else {
+                w3.classList.add('locked');
+                w3.onclick = null;
+                document.getElementById('ws-3').innerText = '🔒 LOCKED';
+                w3.querySelector('.lock-overlay').style.display = 'flex';
+            }
         }
 
         this.renderFragments();
+    }
+
+    resetGame() {
+        localStorage.removeItem('realm_analytics');
+        location.reload();
     }
 
     renderFragments() {
