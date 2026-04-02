@@ -11,7 +11,7 @@ class Level1 {
             { text: "NYVRA", hint: "Shifted exactly halfway (ROT13)", answer: "ALIEN" },
             { text: "--. .... --- ... -", hint: "Dots and dashes of the old era", answer: "GHOST" },
             { text: "HZWXJ", hint: "Caesar shifted forward by 5", answer: "CURSE" },
-            { text: "D[OEOY", hint: "QWERTY keyboard shifted one right", answer: "SPIRIT" },
+            { text: "D[OEOY", hint: "QWERTY keyboard shifted one left", answer: "SPIRIT" },
             { text: "15-3-3-21-12-20", hint: "Alphabet sequence position", answer: "OCCULT" }
         ];
         this.currentStep = 0;
