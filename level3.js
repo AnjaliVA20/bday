@@ -58,6 +58,7 @@ class Level3 {
             '<div id="l3-feedback" class="feedback-msg"></div></div>';
 
         this.container.innerHTML = html;
+        window.game.startTimer();
 
         // Auto-focus input and allow Enter key submission
         setTimeout(() => {
@@ -89,6 +90,7 @@ class Level3 {
         inputEl.disabled = true;
 
         if (isCorrect) {
+            window.game.recordTime(3);
             this.score++;
             fb.style.color = '#0f0';
             fb.innerText = "CORRECT! It's " + char.fullName;

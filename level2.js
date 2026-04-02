@@ -92,6 +92,7 @@ class Level2 {
         const isCorrect = this.currentSelection.every((val, index) => val === phase.targetOrder[index]);
 
         if (isCorrect) {
+            window.game.recordTime(2);
             fb.style.color = '#0f0';
             fb.innerText = "CORRECT CHRONOLOGY.";
             this.currentPhase++;

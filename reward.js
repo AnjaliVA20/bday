@@ -48,6 +48,26 @@ class RewardSystem {
 
         video.play();
     }
+
+    showStats() {
+        const stats = JSON.parse(localStorage.getItem('realm_analytics'));
+        if (!stats) {
+            console.log("No analytics data found yet.");
+            return;
+        }
+
+        console.log("%c 🏆 REALM-UP PERFORMANCE REPORT 🏆 ", "background: #222; color: #ff0080; font-size: 20px; font-weight: bold; padding: 10px;");
+
+        for (let level in stats) {
+            console.log(`%c REALM 0${level} `, "background: #0f0; color: #000; font-weight: bold;");
+            stats[level].forEach(s => {
+                const mins = Math.floor(s.time / 60);
+                const secs = (s.time % 60).toFixed(0);
+                const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+                console.log(`Q${s.q}: ${timeStr}`);
+            });
+        }
+    }
 }
 
 window.reward = new RewardSystem();

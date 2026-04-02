@@ -44,6 +44,7 @@ class Level1 {
             '</div>';
 
         this.updateAttempts();
+        window.game.startTimer();
     }
 
     checkAnswer() {
@@ -52,6 +53,7 @@ class Level1 {
         const p = this.puzzles[this.currentStep];
 
         if (input === p.answer) {
+            window.game.recordTime(1);
             fb.style.color = '#0f0';
             fb.innerText = "ACCESS GRANTED. DECRYPTED.";
             this.currentStep++;

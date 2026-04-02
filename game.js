@@ -6,6 +6,26 @@ class GameController {
             level3Cleared: true
         };
         this.fragments = ["DANDADAN", "GHOSTHUNTER", "WOLFGIRL"];
+
+        // Analytics
+        this.timerStart = null;
+        this.analytics = JSON.parse(localStorage.getItem('realm_analytics')) || { 1: [], 2: [], 3: [] };
+    }
+
+    startTimer() {
+        if (this.timerStart) return; // Already running
+        this.timerStart = Date.now();
+    }
+
+    recordTime(levelNum) {
+        if (!this.timerStart) return;
+        const elapsed = (Date.now() - this.timerStart) / 1000;
+        this.analytics[levelNum].push({
+            q: this.analytics[levelNum].length + 1,
+            time: elapsed.toFixed(2) // in seconds
+        });
+        localStorage.setItem('realm_analytics', JSON.stringify(this.analytics));
+        this.timerStart = null;
     }
 
     startGame() {
