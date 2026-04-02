@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Realm-Up · The Ultimate Challenge</title>
+  <meta name="description"
+    content="A 3-level mysterious challenge spanning three unique realms. Crack the code to claim your reward!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- THREE.JS BACKGROUND CANVAS -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════ HOME ═══════════════════════════════════════ -->
+  <div id="home-screen" class="screen active" role="main">
+    <div class="home-particles"></div>
+    <div class="home-content">
+      <div class="title-badge">⚡ THE ULTIMATE CHALLENGE ⚡</div>
+      <h1 class="game-title">LEVEL<br><span class="title-accent">UP</span></h1>
+      <p class="home-subtitle">Three worlds. Three trials. One secret code.</p>
+      <div class="home-level-preview">
+        <div class="preview-chip l1-chip">👾 REALM 01</div>
+        <div class="preview-chip l2-chip">👻 REALM 02</div>
+        <div class="preview-chip l3-chip">💖 REALM 03</div>
+      </div>
+      <button class="btn btn-primary" id="start-btn" onclick="game.startGame()">BEGIN YOUR JOURNEY</button>
+    </div>
+    <div class="floating-symbols">
+      <span style="--d:0s;--x:10%;--s:1.4">👾</span>
+      <span style="--d:1.2s;--x:80%;--s:1.1">⚡</span>
+      <span style="--d:0.5s;--x:50%;--s:0.9">✦</span>
+      <span style="--d:2s;--x:25%;--s:1.2">⚔</span>
+      <span style="--d:1.7s;--x:70%;--s:1.0">◈</span>
+      <span style="--d:0.3s;--x:88%;--s:1.3">🌀</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ LEVEL SELECT ══════════════════════════════════ -->
+  <div id="level-select" class="screen">
+    <div class="ls-header">
+      <h2>CHOOSE YOUR WORLD</h2>
+      <p>Complete all three to unlock the final vault</p>
+    </div>
+    <div class="worlds-grid">
+
+      <!-- WORLD 1: Realm 01 -->
+      <div class="world-card" id="world-1" data-level="1" onclick="game.enterLevel(1)">
+        <div class="world-card-bg w1-bg"></div>
+        <div class="world-card-shimmer"></div>
+        <div class="world-num">01</div>
+        <div class="world-icon-big">👾</div>
+        <h3 class="world-name">REALM 01</h3>
+        <p class="world-theme">Supernatural Tokyo</p>
+        <div class="world-mechanic-badge">🔐 CIPHER CHALLENGE</div>
+        <div class="world-state" id="ws-1">ENTER WORLD</div>
+        <div class="world-done-badge" id="wb-1">✓ CLEARED</div>
+        <div class="card-glow g1"></div>
+      </div>
+
+      <!-- WORLD 2: Realm 02 -->
+      <div class="world-card locked" id="world-2" data-level="2">
+        <div class="world-card-bg w2-bg"></div>
+        <div class="world-card-shimmer"></div>
+        <div class="world-num">02</div>
+        <div class="world-icon-big">👻</div>
+        <h3 class="world-name">REALM 02</h3>
+        <p class="world-theme">Haunted Domain</p>
+        <div class="world-mechanic-badge">📜 ARRANGE THE EVIDENCE</div>
+        <div class="world-state" id="ws-2">🔒 LOCKED</div>
+        <div class="world-done-badge" id="wb-2">✓ CLEARED</div>
+        <div class="lock-overlay">
+          <div class="lock-icon-big">🔒</div>
+        </div>
+        <div class="card-glow g2"></div>
+      </div>
+
+      <!-- WORLD 3: Realm 03 -->
+      <div class="world-card locked" id="world-3" data-level="3">
+        <div class="world-card-bg w3-bg"></div>
+        <div class="world-card-shimmer"></div>
+        <div class="world-num">03</div>
+        <div class="world-icon-big">💖</div>
+        <h3 class="world-name">REALM 03</h3>
+        <p class="world-theme">Fake Romance</p>
+        <div class="world-mechanic-badge">👤 SILHOUETTE GUESSER</div>
+        <div class="world-state" id="ws-3">🔒 LOCKED</div>
+        <div class="world-done-badge" id="wb-3">✓ CLEARED</div>
+        <div class="lock-overlay">
+          <div class="lock-icon-big">🔒</div>
+        </div>
+        <div class="card-glow g3"></div>
+      </div>
+    </div>
+
+    <div class="fragments-row" id="fragments-row"></div>
+
+    <div id="final-crack-btn" class="final-crack-container" style="display:none">
+      <button class="btn btn-crack-big" onclick="game.showCodeCrack()">
+        🔓 CRACK THE FINAL VAULT
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ LEVEL 1 ═══════════════════════════════════════ -->
+  <div id="level1-screen" class="screen">
+    <div class="level-hdr l1-hdr">
+      <button class="back-btn" onclick="game.showLevelSelect()">← BACK</button>
+      <div class="hdr-center">
+        <span class="lvl-tag">LEVEL 01</span>
+        <h2>REALM 01 — THE CIPHER</h2>
+      </div>
+      <div class="hdr-right">
+        <span id="l1-attempts">❤️ 3 attempts</span>
+      </div>
+    </div>
+    <div id="level1-content" class="level-body"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════ LEVEL 2 ═══════════════════════════════════════ -->
+  <div id="level2-screen" class="screen">
+    <div class="level-hdr l2-hdr">
+      <button class="back-btn" onclick="game.showLevelSelect()">← BACK</button>
+      <div class="hdr-center">
+        <span class="lvl-tag">LEVEL 02</span>
+        <h2>REALM 02 — THE CHRONICLE</h2>
+      </div>
+      <div class="hdr-right">
+        <span>Drag cards in order</span>
+      </div>
+    </div>
+    <div id="level2-content" class="level-body"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════ LEVEL 3 ═══════════════════════════════════════ -->
+  <div id="level3-screen" class="screen">
+    <div class="level-hdr l3-hdr">
+      <button class="back-btn" onclick="game.showLevelSelect()">← BACK</button>
+      <div class="hdr-center">
+        <span class="lvl-tag">LEVEL 03</span>
+        <h2>REALM 03 — SHADOW GUESSER</h2>
+      </div>
+      <div class="hdr-right">
+        <span id="l3-score-hdr">0 / 9</span>
+      </div>
+    </div>
+    <div id="level3-content" class="level-body"></div>
+  </div>
+
+  <!-- ══════════════════════════════════ CODE CRACK ═════════════════════════════════════ -->
+  <div id="code-crack-screen" class="screen">
+    <div class="terminal-wrap">
+      <div class="terminal-topbar">
+        <span class="t-dot red"></span>
+        <span class="t-dot yellow"></span>
+        <span class="t-dot green"></span>
+        <span class="t-title">VAULT_BREACH.EXE</span>
+      </div>
+      <div class="terminal-body">
+        <p class="t-line"><span class="t-prompt">SYS &gt;</span> All 3 worlds conquered. Final lock engaged.</p>
+        <p class="t-line"><span class="t-prompt">SYS &gt;</span> Combine your fragments. One word per level. Separated
+          by dashes.</p>
+        <div class="fragments-display-crack" id="frags-crack"></div>
+        <div class="t-input-row">
+          <span class="t-cursor-char">&gt;&gt;_</span>
+          <input id="vault-input" class="vault-input" type="text" placeholder="WORD1-WORD2-WORD3" autocomplete="off"
+            maxlength="40" />
+        </div>
+        <button class="btn btn-breach" onclick="reward.attemptCrack()">⚡ BREACH THE VAULT</button>
+        <div class="crack-result" id="crack-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════ REWARD ═════════════════════════════════════════ -->
+  <div id="reward-screen" class="screen">
+    <div class="reward-bg-glow"></div>
+    <div class="reward-wrap">
+      <div class="trophy-anim">🏆</div>
+      <h1 class="reward-heading">VAULT BREACHED!</h1>
+      <p class="reward-sub">You've conquered all three mysterious worlds!</p>
+
+      <!-- NEW: Pre-video Message Screen -->
+      <div id="reward-pre-msg" class="reward-message-overlay">
+        <div class="msg-card">
+          <p>"i tried to make something but i think it is a flop. but lets see"</p>
+          <button class="btn btn-primary" onclick="reward.showFinalVideo()">CONTINUE</button>
+        </div>
+      </div>
+
+      <div id="reward-real-content" style="display:none">
+        <div class="video-reveal-area">
+          <div class="video-label-top">✨ YOUR SECRET REWARD ✨</div>
+          <div class="video-frame-wrap">
+            <video id="reward-video" controls style="width: 100%; border-radius: 8px;"></video>
+          </div>
+        </div>
+
+        <!-- NEW: Final Birthday Message -->
+        <div id="final-birthday-msg" class="birthday-overlay" style="display:none">
+          <div class="birthday-card">
+            <h2> HAPPY BIRTHDAY </h2>
+            <div class="bday-text">
+              "Happy Birthday to my fav person🫂. If it weren't, without u life would be much harder and boring.
+              Life would be less chaotic which i don't like 💗. Thanks for being that person who scolds for the dumb
+              things do and go do the exact same thing later😂.
+              Thanks for being that caring mom , that easily gets irritated😭.
+              U hang on to me like a sloth to a tree which is a relief in the middle of a 1000 problems 🫂.
+              So yeah u , me and our 4 💗 against the world. Let ur year be more chaotic, more fun and more enthusiastic
+              every
+              day 😌🫂. Your are great the way u r. i dont u to change."
+            </div>
+            <div class="bday-footer">Forever & Always ♾️</div>
+          </div>
+        </div>
+
+        <div class="final-password-box">
+          <p>Your complete password was:</p>
+          <div class="final-pw" id="final-pw-display"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="threescenes.js"></script>
+  <script src="game.js"></script>
+  <script src="level1.js"></script>
+  <script src="level2.js"></script>
+  <script src="level3.js"></script>
+  <script src="reward.js"></script>
+</body>
+
+</html>
