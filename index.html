@@ -206,18 +206,26 @@
         <!-- NEW: Final Birthday Message -->
         <div id="final-birthday-msg" class="birthday-overlay" style="display:none">
           <div class="birthday-card">
-            <h2> HAPPY BIRTHDAY </h2>
-            <div class="bday-text">
-              "Happy Birthday to my fav person🫂. If it weren't, without u life would be much harder and boring.
-              Life would be less chaotic which i don't like 💗. Thanks for being that person who scolds for the dumb
-              things do and go do the exact same thing later😂.
-              Thanks for being that caring mom , that easily gets irritated😭.
-              U hang on to me like a sloth to a tree which is a relief in the middle of a 1000 problems 🫂.
-              So yeah u , me and our 4 💗 against the world. Let ur year be more chaotic, more fun and more enthusiastic
-              every
-              day 😌🫂. Your are great the way u r. i dont u to change."
+            <div class="card-hearts">💖🫂🫂💖</div>
+            <div class="birthday-message" id="bday-msg-text">
+              Happy Birthday to my fav person🫂. If it weren't without u life would be much harder and boring..life
+              would be less chaotic which i don't like 💗. Thanks for being that person who scolds for the dumb things I
+              do and go do the exact same thing later😂. Thanks for being that caring mom , that easily gets irritated
+              😭. U hang on to me like a sloth to a tree which is a relief in the middle of a 1000 problems 🫂. So yeah
+              u , me and our 4 💗 against the world. Let ur year be more chaotic more fun and more enthusiastic every
+              day 😌🫂
             </div>
-            <div class="bday-footer">Forever & Always ♾️</div>
+
+            <!-- VISIBLE STATS REPORT FOR SHARING -->
+            <div class="journey-report">
+              <button id="show-stats-btn" onclick="window.reward.toggleStats()">📈 VIEW MY JOURNEY STATS</button>
+              <div id="stats-display" style="display: none;">
+                <div class="stats-grid" id="stats-summary-grid"></div>
+                <button class="share-stats-btn" onclick="window.reward.copyStats()">📋 COPY STATS FOR GIVER</button>
+              </div>
+            </div>
+
+            <div class="card-footer">Made with ❤️ for you</div>
           </div>
         </div>
 

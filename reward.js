@@ -49,6 +49,58 @@ class RewardSystem {
         video.play();
     }
 
+    toggleStats() {
+        const display = document.getElementById('stats-display');
+        const grid = document.getElementById('stats-summary-grid');
+        const btn = document.getElementById('show-stats-btn');
+
+        if (display.style.display === 'none') {
+            display.style.display = 'block';
+            btn.innerText = '🔼 HIDE JOURNEY STATS';
+            grid.innerHTML = this.getStatsHtml();
+        } else {
+            display.style.display = 'none';
+            btn.innerText = '📈 VIEW MY JOURNEY STATS';
+        }
+    }
+
+    getStatsHtml() {
+        const stats = JSON.parse(localStorage.getItem('realm_analytics'));
+        if (!stats) return '<p>No data recorded.</p>';
+
+        let html = '';
+        for (let level in stats) {
+            html += `<div class="stats-col"><h4>REALM 0${level}</h4>`;
+            stats[level].forEach(s => {
+                const time = parseFloat(s.time);
+                const timeStr = time > 60 ? `${Math.floor(time / 60)}m ${Math.floor(time % 60)}s` : `${time.toFixed(0)}s`;
+                html += `<div class="stats-row"><span>Q${s.q}</span> <span>${timeStr}</span></div>`;
+            });
+            html += `</div>`;
+        }
+        return html;
+    }
+
+    copyStats() {
+        const stats = JSON.parse(localStorage.getItem('realm_analytics'));
+        if (!stats) return;
+
+        let text = "🏆 REALM-UP PERFORMANCE REPORT 🏆\n\n";
+        for (let level in stats) {
+            text += `REALM 0${level}:\n`;
+            stats[level].forEach(s => {
+                const time = parseFloat(s.time);
+                const timeStr = time > 60 ? `${Math.floor(time / 60)}m ${Math.floor(time % 60)}s` : `${time.toFixed(0)}s`;
+                text += `  Quest ${s.q}: ${timeStr}\n`;
+            });
+            text += "\n";
+        }
+
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Stats copied to clipboard! Paste it to your favorite person. 🫂💖");
+        });
+    }
+
     showStats() {
         const stats = JSON.parse(localStorage.getItem('realm_analytics'));
         if (!stats) {
